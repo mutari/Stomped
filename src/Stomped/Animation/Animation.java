@@ -1,5 +1,8 @@
 package Stomped.Animation;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public abstract class Animation {
@@ -19,24 +22,23 @@ public abstract class Animation {
 
     public void run() {
 
-        long compareTime = 1000000000/speed;
-        long lastFrameTime = 0;
+        step(frames.get(index));
 
-        while(true) {
+        if (index != frames.size() - 1)
+            index++;
 
-            long now = System.nanoTime();
+        new Timer(speed, new ActionListener() {
 
-            if((now - lastFrameTime) >= compareTime) {
+            public void actionPerformed(ActionEvent e) {
 
-                System.out.println(now + "-" + lastFrameTime + "=" + (now + - + lastFrameTime));
                 step(frames.get(index));
-                if(++index >= frames.size())
-                    break;
 
-                lastFrameTime = now;
+                if (index != frames.size() - 1)
+                    index++;
+                else
+                    ((Timer)e.getSource()).stop();
             }
-
-        }
+        }).start();
 
         index = 0;
 

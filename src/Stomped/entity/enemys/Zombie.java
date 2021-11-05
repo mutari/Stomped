@@ -34,14 +34,8 @@ public class Zombie extends Entity {
 
         // set upp animation
         ArrayList<Frame> onHitFrames = new ArrayList<>();
-        onHitFrames.add(new Frame(new double[]{5}));
-        onHitFrames.add(new Frame(new double[]{5}));
-        onHitFrames.add(new Frame(new double[]{5}));
-        onHitFrames.add(new Frame(new double[]{5}));
-        onHitFrames.add(new Frame(new double[]{5}));
-        onHitFrames.add(new Frame(new double[]{5}));
-        onHitFrames.add(new Frame(new double[]{5}));
-        onHitFrames.add(new Frame(new double[]{5}));
+        onHitFrames.add(new Frame(new double[]{21}));
+        onHitFrames.add(new Frame(new double[]{20}));
         onHitAnimation = new Animation(onHitFrames, 10) {
             @Override
             public void step(Frame frame) {
