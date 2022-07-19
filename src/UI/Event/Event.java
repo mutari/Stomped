@@ -6,7 +6,7 @@ public final class Event {
 
     private static Long eventCounter = 0L;
 
-    enum EventType {
+    public enum EventType {
         click, hover
     }
 
@@ -21,6 +21,13 @@ public final class Event {
         this.type = type;
     }
 
+    public void setPoint(Point point) {
+        this.point = point;
+    }
+
+    public Point getPoint() {
+        return point;
+    }
     public EventType getEventType() {
         return this.type;
     }

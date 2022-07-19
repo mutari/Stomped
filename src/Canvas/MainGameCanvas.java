@@ -46,8 +46,6 @@ public class MainGameCanvas extends Canvas {
 					
 				}
 			}
-
-			g.drawRect((int)(globalOffsetX + (-5)), (int)(globalOffsetY + (-5)), 10, 10);
 			
 			//temp!!!!
 			s.draw(g, this);

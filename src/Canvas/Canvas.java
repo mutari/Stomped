@@ -1,5 +1,7 @@
 package Canvas;
 
+import Toolbox.Toolbox;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
@@ -11,8 +13,10 @@ public abstract class Canvas extends JPanel {
 	
 	public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        
+
         Graphics2D g2d = (Graphics2D)g;
+
+        g2d.setFont(Toolbox.getFont());
         
         // draw custom content
         draw(g2d);

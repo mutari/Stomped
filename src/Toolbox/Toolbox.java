@@ -1,10 +1,14 @@
 package Toolbox;
 
-import java.awt.Point;
+import java.awt.*;
 import java.util.Random;
 
 public class Toolbox {
-	
+
+	public static Font getFont() {
+		return new Font("TimesRoman", Font.PLAIN, 18);
+	}
+
 	/*
 	private void calculateAngle(Point target) {
 		  // calculate the angle from the center of the image
@@ -15,7 +19,7 @@ public class Toolbox {
 		     angle += (Math.PI * 2);
 		  }
 	}
-	
+
 	angle = Math.toRadians(Math.toDegrees(angle) + 180.0);
 	*/
 
@@ -26,24 +30,6 @@ public class Toolbox {
 		for (int i = 0; i < len; i++)
 			sb.append(chars.charAt(rnd.nextInt(chars.length())));
 		return sb.toString();
-	}
-	
-	public static float getAngle2(Point start, Point end) {
-	    float angle = (float) Math.toDegrees(Math.atan2(start.y - end.y, start.x - end.x));
-	    
-	    float yD = start.y - end.y;
-	    float xD = start.x - end.x;
-	    
-	    float rad = yD/xD;
-	    
-	    angle = (float)Math.toDegrees(rad);
-	    
-/*
-	    if(angle < 0){
-	        angle += 360;
-	    }
-^*/
-	    return angle;
 	}
 	
 	/**

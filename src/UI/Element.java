@@ -1,6 +1,14 @@
 package UI;
 
+import UI.Event.Event;
+import UI.Event.EventListener;
+
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Map;
 
 public abstract class Element {
 
@@ -14,8 +22,7 @@ public abstract class Element {
 	protected Color color = Color.BLACK;
 	protected Color borderColor = Color.BLACK;
 	protected boolean visible = true;
-
-
+	private ArrayList<EventListener> eventListeners = new ArrayList<>();
 
 	public Element(Point point) {
 		this.point = point;
@@ -74,7 +81,15 @@ public abstract class Element {
 			drawElement(g);
 	}
 
-	public abstract void drawElement(Graphics2D g);
+	public void addEventListener(Event.EventType eventType, Runnable function) {
+		eventListeners.add(new EventListener(eventType, function));
+	}
 
-	public abstract void eventListener(EVENT event);
+	public void eventListener(Event event) {
+		for (EventListener eventListener : eventListeners) {
+			eventListener.getFunction().run();
+		}
+	}
+
+	public abstract void drawElement(Graphics2D g);
 }

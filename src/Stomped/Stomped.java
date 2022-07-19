@@ -16,6 +16,7 @@ import Stomped.entity.enemys.Zombie;
 import Stomped.world.World;
 import Toolbox.*;
 import UI.Button;
+import UI.Event.Event;
 import UI.Label;
 import UI.ProgressBar;
 import UI.UIManager;
@@ -28,8 +29,8 @@ public class Stomped {
 	private MainGameCanvas mainGameCanvas;
 	private World gameWorld;
 	private EntityManager entityManager;
-	
 	private Player player;
+	private Button spawnZombieButton;
 
 	public Stomped(Window gw, MainGameCanvas mgc) {
 		this.gameWindow = gw;
@@ -47,13 +48,9 @@ public class Stomped {
 		UIManager.add(new Label("", new Point(20, 80), "bullets-number"));
 		UIManager.add(new Label("", new Point(20, 100), "entities-number"));
 		UIManager.add(new ProgressBar(new Point((this.mainGameCanvas.getWidth()/2) - 150, /*this.mainGameCanvas.getHeight() - */50), "player-health", 300, 15, 100));
-		UIManager.add(new Button(new Point((this.mainGameCanvas.getWidth()/2) - 150, this.mainGameCanvas.getHeight() - 20)));
 
 		//set upp entitymanager
 		this.entityManager = new EntityManager();
-		this.entityManager.addEntity(new Zombie(400, 400));
-		this.entityManager.addEntity(new Zombie(800, 400));
-		this.entityManager.addEntity(new Zombie(400, 800));
 		
 		this.mainGameCanvas.setWorld(this.gameWorld);
 		this.mainGameCanvas.setPlayer(this.player);
@@ -61,6 +58,15 @@ public class Stomped {
 
 		this.gameWindow.addKeyListener(new KeyListener());
 		this.gameWindow.addMouseListener(new MouseListener());
+
+
+		spawnZombieButton = new Button("Spawn Zombie", new Point(20, 130));
+		UIManager.add(spawnZombieButton);
+		spawnZombieButton.setDimension(new Dimension(180, 60));
+		spawnZombieButton.addEventListener(Event.EventType.click, () -> {
+			entityManager.addEntity(new Zombie(100, 100));
+		});
+
 	}
 	
 	public void init() {
@@ -124,10 +130,10 @@ public class Stomped {
 			label.setText("Player x / y : " + player.getPosition().x + " / " + player.getPosition().y);
 
 			label = (Label)UIManager.getElementById("entities-number");
-			label.setText("entities : " + this.entityManager.count());
+			label.setText("Entities : " + this.entityManager.count());
 
 			label = (Label)UIManager.getElementById("bullets-number");
-			label.setText("bullets : " + this.entityManager.count("Bullet"));
+			label.setText("Bullets : " + this.entityManager.count("Bullet"));
 
 			mousePosition.x += mainGameCanvas.getGlobalOffsetX(); mousePosition.y += mainGameCanvas.getGlobalOffsetY();
 			player.setAngel(Toolbox.getAngle(new Position((this.gameWindow.getWidth()/2) + globalOffsetX, (this.gameWindow.getHeight()/2) + globalOffsetY), mousePosition) - 90);
@@ -161,6 +167,9 @@ public class Stomped {
 		 */
 		@Override
 		public void mousePressed(MouseEvent event) {
+
+			// if a UI element is hit then return
+			if(UIManager.clickElement(event)) return;
 
 			//Left mouse button clicked
 			if(event.getButton() == MouseEvent.BUTTON1) {

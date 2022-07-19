@@ -1,5 +1,6 @@
 package UI;
 
+import UI.Event.Event;
 import java.awt.*;
 
 public class ProgressBar extends Element {
@@ -33,11 +34,6 @@ public class ProgressBar extends Element {
         g.setColor(this.borderColor);
         g.drawRect(this.point.x, this.point.y, this.width, this.height);
         g.setColor(temp);
-    }
-
-    @Override
-    public void eventListener(EVENT event) {
-
     }
 
     public void setPercent(int percent) {

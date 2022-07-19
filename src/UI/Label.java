@@ -1,5 +1,8 @@
 package UI;
 
+import Toolbox.Toolbox;
+import UI.Event.Event;
+
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
@@ -9,13 +12,13 @@ public class Label extends Element {
 	private AffineTransform affinetransform = new AffineTransform();     
 	private FontRenderContext frc = new FontRenderContext(affinetransform,true,true);  
 	private String text;
-	private Font font; 
+	private Font font;
 	private int fontSize = 16;
 	
 	public Label(String text, Point point, String id) {
 		super(point);
 		this.text = text;
-		this.font = new Font("TimesRoman", Font.PLAIN, fontSize);
+		this.font = Toolbox.getFont();
 		this.elementId = id;
 		this.color = Color.BLACK;
 		
@@ -25,7 +28,7 @@ public class Label extends Element {
 	public Label(String text, Point point) {
 		super(point);
 		this.text = text;
-		this.font = new Font("TimesRoman", Font.PLAIN, fontSize);
+		this.font = Toolbox.getFont();
 		
 		this.dimension = new Dimension((int)(font.getStringBounds(text, frc).getWidth()), (int)(font.getStringBounds(text, frc).getHeight()));
 	}
@@ -35,11 +38,6 @@ public class Label extends Element {
 		g.setFont(this.font);
 		g.setColor(this.color);
 		g.drawString(this.text, point.x, point.y + this.dimension.height);
-	}
-
-	@Override
-	public void eventListener(EVENT event) {
-
 	}
 
 	public void setFont(Font font) {
