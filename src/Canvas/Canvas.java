@@ -7,11 +7,7 @@ import javax.swing.*;
 
 public abstract class Canvas extends JPanel {
 	
-	public Canvas() {
-		
-		
-		
-	}
+	public Canvas() {}
 	
 	public void paintComponent(Graphics g) {
         super.paintComponent(g);

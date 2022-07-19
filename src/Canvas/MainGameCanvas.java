@@ -31,9 +31,7 @@ public class MainGameCanvas extends Canvas {
 	private Structure s1 = new Structure(new Point(500, 500), prop);
 	private Structure s2 = new Structure(new Point(100, 100), prop);
 
-	public MainGameCanvas() {
-
-	}
+	public MainGameCanvas() {}
 	
 	@Override
 	public void draw(Graphics2D g) {
@@ -48,6 +46,8 @@ public class MainGameCanvas extends Canvas {
 					
 				}
 			}
+
+			g.drawRect((int)(globalOffsetX + (-5)), (int)(globalOffsetY + (-5)), 10, 10);
 			
 			//temp!!!!
 			s.draw(g, this);

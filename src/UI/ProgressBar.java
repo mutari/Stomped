@@ -35,6 +35,11 @@ public class ProgressBar extends Element {
         g.setColor(temp);
     }
 
+    @Override
+    public void eventListener(EVENT event) {
+
+    }
+
     public void setPercent(int percent) {
         if(percent < 0) percent = 0;
         this.percent = percent;

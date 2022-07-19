@@ -36,7 +36,12 @@ public class Label extends Element {
 		g.setColor(this.color);
 		g.drawString(this.text, point.x, point.y + this.dimension.height);
 	}
-	
+
+	@Override
+	public void eventListener(EVENT event) {
+
+	}
+
 	public void setFont(Font font) {
 		this.font = font;
 		this.dimension = new Dimension((int)(font.getStringBounds(text, frc).getWidth()), (int)(font.getStringBounds(text, frc).getHeight()));

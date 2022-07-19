@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -14,6 +15,7 @@ import Stomped.entity.EntityManager;
 import Stomped.entity.enemys.Zombie;
 import Stomped.world.World;
 import Toolbox.*;
+import UI.Button;
 import UI.Label;
 import UI.ProgressBar;
 import UI.UIManager;
@@ -44,7 +46,8 @@ public class Stomped {
 		UIManager.add(new Label("x / y", new Point(20, 60), "cords-player"));
 		UIManager.add(new Label("", new Point(20, 80), "bullets-number"));
 		UIManager.add(new Label("", new Point(20, 100), "entities-number"));
-		UIManager.add(new ProgressBar(new Point((this.mainGameCanvas.getWidth()/2) - 150, this.mainGameCanvas.getHeight() - 50), "player-health", 300, 15, 100));
+		UIManager.add(new ProgressBar(new Point((this.mainGameCanvas.getWidth()/2) - 150, /*this.mainGameCanvas.getHeight() - */50), "player-health", 300, 15, 100));
+		UIManager.add(new Button(new Point((this.mainGameCanvas.getWidth()/2) - 150, this.mainGameCanvas.getHeight() - 20)));
 
 		//set upp entitymanager
 		this.entityManager = new EntityManager();
@@ -70,9 +73,6 @@ public class Stomped {
 		
 		this.mainGameCanvas.setGlobalOffset(globalOffsetX, globalOffsetY);
 		this.mainGameCanvas.setScreenCenter(new Point((windowWidth/2), (windowHeight/2)));
-		
-		
-		
 	}
 	
 	public void tick() {
@@ -82,7 +82,7 @@ public class Stomped {
 	}
 	
 	public void frame() {
-		// bör flyttas till on resize
+		// TODO: move to onResize
 		this.mainGameCanvas.setScreenCenter(new Point((this.gameWindow.getWidth()/2), (this.gameWindow.getHeight()/2)));
 		
 		// move the player!!
@@ -116,10 +116,9 @@ public class Stomped {
 		if(mousePosition != null) {
 			Label label = (Label)UIManager.getElementById("cords-onscreen");
 			label.setText("Mouse on screen x / y : " + mousePosition.x + " / " + mousePosition.y);
-			mousePosition.x += globalOffsetX; mousePosition.y += globalOffsetY;
 			
 			label = (Label)UIManager.getElementById("cords-onmap");
-			label.setText("Mouse in world x / y : " + mousePosition.x + " / " + mousePosition.y);
+			label.setText("Mouse in world x / y : " + (mousePosition.x - mainGameCanvas.getGlobalOffsetX()) + " / " + (mousePosition.y - mainGameCanvas.getGlobalOffsetY()));
 
 			label = (Label)UIManager.getElementById("cords-player");
 			label.setText("Player x / y : " + player.getPosition().x + " / " + player.getPosition().y);
@@ -129,7 +128,8 @@ public class Stomped {
 
 			label = (Label)UIManager.getElementById("bullets-number");
 			label.setText("bullets : " + this.entityManager.count("Bullet"));
-			
+
+			mousePosition.x += mainGameCanvas.getGlobalOffsetX(); mousePosition.y += mainGameCanvas.getGlobalOffsetY();
 			player.setAngel(Toolbox.getAngle(new Position((this.gameWindow.getWidth()/2) + globalOffsetX, (this.gameWindow.getHeight()/2) + globalOffsetY), mousePosition) - 90);
 			
 		}
@@ -157,13 +157,33 @@ public class Stomped {
 		/**
 		 * Invoked when a mouse button has been pressed on a component.
 		 *
-		 * @param e the event to be processed
+		 * @param event the event to be processed
 		 */
 		@Override
-		public void mousePressed(MouseEvent e) {
-			double x = player.getPosition().x;
-			double y = player.getPosition().y;
-			entityManager.addEntity(new Bullet(x, y, player.getAngel()));
+		public void mousePressed(MouseEvent event) {
+
+			//Left mouse button clicked
+			if(event.getButton() == MouseEvent.BUTTON1) {
+				double x = player.getPosition().x;
+				double y = player.getPosition().y;
+				entityManager.addEntity(new Bullet(x, y, player.getAngel()));
+
+				ArrayList<Entity> entities = entityManager.getEntitiesInRadius(player, 3000);
+				Iterator<Entity> itr = entities.iterator();
+				while(itr.hasNext()) {
+					Entity e = itr.next();
+					if(e.getClass().getSimpleName().equals("Zombie")) {
+						Zombie z = (Zombie) e;
+						z.setDetectionArea(3000.0);
+					}
+				}
+			}
+			// Right mouse button clicked
+			else if(event.getButton() == MouseEvent.BUTTON3) {
+				entityManager.addEntity(new Zombie(event.getX() - mainGameCanvas.getGlobalOffsetX(), event.getY() - mainGameCanvas.getGlobalOffsetY()));
+			}
+
+
 		}
 
 		/**

@@ -45,7 +45,6 @@ public class Zombie extends Entity {
 
         this.setTexture("./res/Entity/Zombie/zombie_hold.png");
 
-        System.out.println((int)(((double) this.health / (double) this.maxHealth)*100));
         ProgressBar pb = new ProgressBar(new Point((int)x, (int)y), "Zombie_" + this.identifier, 200, 10, (int)(((double) this.health / (double) this.maxHealth)*100));
         pb.setVisible(false);
         UIManager.add(pb);
@@ -121,5 +120,14 @@ public class Zombie extends Entity {
         g.fillRect((int)xOffset, (int)yOffset, 5 , 5);
         g.setColor(Color.BLACK);
 
+    }
+
+
+    public void setDetectionArea(double detectionArea) {
+        this.detectionArea = detectionArea;
+    }
+
+    public double getDetectionArea() {
+        return this.detectionArea;
     }
 }

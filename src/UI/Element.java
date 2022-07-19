@@ -3,6 +3,10 @@ package UI;
 import java.awt.*;
 
 public abstract class Element {
+
+	enum EVENT {
+		CLICK, HOVER
+	}
 	
 	protected Point point;
 	protected Dimension dimension;
@@ -10,7 +14,9 @@ public abstract class Element {
 	protected Color color = Color.BLACK;
 	protected Color borderColor = Color.BLACK;
 	protected boolean visible = true;
-	
+
+
+
 	public Element(Point point) {
 		this.point = point;
 	}
@@ -69,5 +75,6 @@ public abstract class Element {
 	}
 
 	public abstract void drawElement(Graphics2D g);
-	
+
+	public abstract void eventListener(EVENT event);
 }
